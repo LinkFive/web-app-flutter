@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:html' show document;
 
 void main() {
   runApp(const MyApp());
@@ -41,10 +41,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void test() async {
-    SharedPreferences.setPrefix("");
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    print(token);
+    final cookie = document.cookie!;
+    final entity = cookie.split("; ").map((item) {
+      final split = item.split("=");
+      return MapEntry(split[0], split[1]);
+    });
+    final cookieMap = Map.fromEntries(entity);
+    print("cookie token");
+    print(cookieMap["flutter.token"]);
   }
 
   void _incrementCounter() {
