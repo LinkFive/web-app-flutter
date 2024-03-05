@@ -7,7 +7,10 @@ import 'package:linkfive_flutter_web/src/provider/path_parameter_provider.dart';
 
 part 'main_router.g.dart';
 
+const String envInitialRoute = String.fromEnvironment("INITIAL_ROUTE", defaultValue: "");
+
 final mainRouter = GoRouter(
+  initialLocation: envInitialRoute.isNotEmpty ? envInitialRoute : dashboardRoute,
   routes: $appRoutes,
 );
 

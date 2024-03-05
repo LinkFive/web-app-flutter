@@ -1,7 +1,12 @@
 import 'dart:html' show document;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+const String envToken = String.fromEnvironment("TOKEN", defaultValue: "");
+
 final tokenProvider = Provider<String>((ref) {
+  if(envToken.isNotEmpty){
+    return envToken;
+  }
   final flutterToken = document.cookie!
       .split("; ")
       .map((item) {

@@ -15,9 +15,18 @@ class OfferingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final offerings = ref.watch(offeringsNotifier);
-    MrsLog.d(offerings);
-    return const Scaffold(
-      body: Text("Offerings"),
-    );
+    return Scaffold(
+        body: offerings.when(
+      data: (data) {
+        MrsLog.d(data.toJson());
+        return Text("asd");
+      },
+      loading: () => const Center(
+        child: Column(
+          children: [CircularProgressIndicator()],
+        ),
+      ),
+      error: (e, s) => Text(e.toString()),
+    ));
   }
 }

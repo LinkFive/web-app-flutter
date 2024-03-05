@@ -10,30 +10,14 @@ OfferingsModel offeringsModelFromJson(String str) => OfferingsModel.fromJson(jso
 String offeringsModelToJson(OfferingsModel data) => json.encode(data.toJson());
 
 class OfferingsModel {
-  final Data data;
+  final List<DeliveryPackageList> deliveryPackageList;
 
   OfferingsModel({
-    required this.data,
-  });
-
-  factory OfferingsModel.fromJson(Map<String, dynamic> json) => OfferingsModel(
-    data: Data.fromJson(json["data"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "data": data.toJson(),
-  };
-}
-
-class Data {
-  final List<DeliveryPackage> deliveryPackageList;
-
-  Data({
     required this.deliveryPackageList,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    deliveryPackageList: List<DeliveryPackage>.from(json["deliveryPackageList"].map((x) => DeliveryPackage.fromJson(x))),
+  factory OfferingsModel.fromJson(Map<String, dynamic> json) => OfferingsModel(
+    deliveryPackageList: List<DeliveryPackageList>.from(json["deliveryPackageList"].map((x) => DeliveryPackageList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,15 +25,15 @@ class Data {
   };
 }
 
-class DeliveryPackage {
+class DeliveryPackageList {
   final String uuid;
   final bool isDefault;
   final bool isActive;
-  final List<PlatformGroup> platformGroupList;
-  final List<OneTimePurchase> oneTimePurchaseList;
+  final List<PlatformGroupList> platformGroupList;
+  final List<OneTimePurchaseList> oneTimePurchaseList;
   final Filters filters;
 
-  DeliveryPackage({
+  DeliveryPackageList({
     required this.uuid,
     required this.isDefault,
     required this.isActive,
@@ -58,12 +42,12 @@ class DeliveryPackage {
     required this.filters,
   });
 
-  factory DeliveryPackage.fromJson(Map<String, dynamic> json) => DeliveryPackage(
+  factory DeliveryPackageList.fromJson(Map<String, dynamic> json) => DeliveryPackageList(
     uuid: json["uuid"],
     isDefault: json["isDefault"],
     isActive: json["isActive"],
-    platformGroupList: List<PlatformGroup>.from(json["platformGroupList"].map((x) => PlatformGroup.fromJson(x))),
-    oneTimePurchaseList: List<OneTimePurchase>.from(json["oneTimePurchaseList"].map((x) => OneTimePurchase.fromJson(x))),
+    platformGroupList: List<PlatformGroupList>.from(json["platformGroupList"].map((x) => PlatformGroupList.fromJson(x))),
+    oneTimePurchaseList: List<OneTimePurchaseList>.from(json["oneTimePurchaseList"].map((x) => OneTimePurchaseList.fromJson(x))),
     filters: Filters.fromJson(json["filters"]),
   );
 
@@ -87,20 +71,20 @@ class Filters {
   };
 }
 
-class OneTimePurchase {
+class OneTimePurchaseList {
   final String uuid;
   final String name;
   final String productId;
   final String platform;
 
-  OneTimePurchase({
+  OneTimePurchaseList({
     required this.uuid,
     required this.name,
     required this.productId,
     required this.platform,
   });
 
-  factory OneTimePurchase.fromJson(Map<String, dynamic> json) => OneTimePurchase(
+  factory OneTimePurchaseList.fromJson(Map<String, dynamic> json) => OneTimePurchaseList(
     uuid: json["uuid"],
     name: json["name"],
     productId: json["productId"],
@@ -115,67 +99,77 @@ class OneTimePurchase {
   };
 }
 
-class PlatformGroup {
+class PlatformGroupList {
   final String uuid;
   final String title;
-  final GoogleSubscription googleSubscription;
+  final LeSubscription? googleSubscription;
   final String? duration;
+  final LeSubscription? appleSubscription;
 
-  PlatformGroup({
+  PlatformGroupList({
     required this.uuid,
     required this.title,
-    required this.googleSubscription,
+    this.googleSubscription,
     this.duration,
+    this.appleSubscription,
   });
 
-  factory PlatformGroup.fromJson(Map<String, dynamic> json) => PlatformGroup(
+  factory PlatformGroupList.fromJson(Map<String, dynamic> json) => PlatformGroupList(
     uuid: json["uuid"],
     title: json["title"],
-    googleSubscription: GoogleSubscription.fromJson(json["googleSubscription"]),
+    googleSubscription: json["googleSubscription"] == null ? null : LeSubscription.fromJson(json["googleSubscription"]),
     duration: json["duration"],
+    appleSubscription: json["appleSubscription"] == null ? null : LeSubscription.fromJson(json["appleSubscription"]),
   );
 
   Map<String, dynamic> toJson() => {
     "uuid": uuid,
     "title": title,
-    "googleSubscription": googleSubscription.toJson(),
+    "googleSubscription": googleSubscription?.toJson(),
     "duration": duration,
+    "appleSubscription": appleSubscription?.toJson(),
   };
 }
 
-class GoogleSubscription {
+class LeSubscription {
   final String uuid;
   final String platform;
   final String title;
   final String sku;
-  final String skuGoogleBaseId;
   final String status;
+  final String? duration;
   final DateTime updatedDate;
   final String primaryCountry;
+  final double? primaryPrice;
   final String primaryCurrency;
+  final String? skuGoogleBaseId;
 
-  GoogleSubscription({
+  LeSubscription({
     required this.uuid,
     required this.platform,
     required this.title,
     required this.sku,
-    required this.skuGoogleBaseId,
     required this.status,
+    this.duration,
     required this.updatedDate,
     required this.primaryCountry,
+    this.primaryPrice,
     required this.primaryCurrency,
+    this.skuGoogleBaseId,
   });
 
-  factory GoogleSubscription.fromJson(Map<String, dynamic> json) => GoogleSubscription(
+  factory LeSubscription.fromJson(Map<String, dynamic> json) => LeSubscription(
     uuid: json["uuid"],
     platform: json["platform"],
     title: json["title"],
     sku: json["sku"],
-    skuGoogleBaseId: json["skuGoogleBaseId"],
     status: json["status"],
+    duration: json["duration"],
     updatedDate: DateTime.parse(json["updatedDate"]),
     primaryCountry: json["primaryCountry"],
+    primaryPrice: json["primaryPrice"]?.toDouble(),
     primaryCurrency: json["primaryCurrency"],
+    skuGoogleBaseId: json["skuGoogleBaseId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -183,10 +177,12 @@ class GoogleSubscription {
     "platform": platform,
     "title": title,
     "sku": sku,
-    "skuGoogleBaseId": skuGoogleBaseId,
     "status": status,
+    "duration": duration,
     "updatedDate": updatedDate.toIso8601String(),
     "primaryCountry": primaryCountry,
+    "primaryPrice": primaryPrice,
     "primaryCurrency": primaryCurrency,
+    "skuGoogleBaseId": skuGoogleBaseId,
   };
 }
