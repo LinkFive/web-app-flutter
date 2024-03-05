@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 class MrsLog{
   static void d(Object s){
-    print(s.toString());
+    log(s.toString(), level: 500);
   }
   static void e(Object o, [StackTrace? s]){
-    print(o.toString());
+    log(o.toString(), level: 1000);
   }
 }
