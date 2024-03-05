@@ -14,9 +14,7 @@ final tokenProvider = Provider<String>((ref) {
       .where((element) => element?.key == "flutter.token")
       .firstOrNull;
   if (flutterToken == null) {
-    document.cookie = "flutter.token=no-token;path=/;";
     throw Exception("No Auth Token");
   }
-  print(flutterToken);
   return flutterToken.value.replaceAll('"', '');
 });
