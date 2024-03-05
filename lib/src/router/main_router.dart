@@ -1,32 +1,35 @@
-
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linkfive_flutter_web/src/pages/dashboard_page.dart';
-import 'package:linkfive_flutter_web/src/pages/offerings_page.dart';
+import 'package:linkfive_flutter_web/src/pages/offerings_page/offerings_page.dart';
+
+part 'main_router.g.dart';
 
 final mainRouter = GoRouter(
-  initialLocation: AppRoute.dashboard.path,
-  routes: [
-    GoRoute(
-      path: AppRoute.dashboard.path,
-      builder: (_, __) {
-        return const DashboardPage();
-      },
-    ),
-    GoRoute(
-      path: AppRoute.offerings.path,
-      builder: (_, state) {
-        final appId = state.pathParameters["appId"] ?? (throw Exception("App ID is null"));
-        return OfferingsPage(appId: appId);
-      },
-    ),
-  ],
+  routes: $appRoutes,
 );
 
-enum AppRoute {
-  dashboard("/"),
-  offerings("/a/:appId/offerings")
-  ;
-  const AppRoute(this.path);
+const dashboardRoute = "/";
+const offeringsRoute = "/a/:appId/offerings";
 
-  final String path;
+@TypedGoRoute<DashboardRoute>(
+  path: dashboardRoute,
+)
+class DashboardRoute extends GoRouteData {
+  const DashboardRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const DashboardPage();
+}
+
+@TypedGoRoute<OfferingsOverviewRoute>(
+  path: offeringsRoute,
+)
+class OfferingsOverviewRoute extends GoRouteData {
+  final String appId;
+
+  const OfferingsOverviewRoute(this.appId);
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => OfferingsPage(appId: appId);
 }
