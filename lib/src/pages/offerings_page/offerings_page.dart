@@ -17,11 +17,8 @@ class OfferingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final offerings = ref.watch(offeringsNotifier);
     print(offerings);
-    return ProviderScope(
-      overrides: [currentAppIdProvider.overrideWith((_) => appId)],
-      child: const Scaffold(
-        body: Text("Offerings"),
-      ),
+    return const Scaffold(
+      body: Text("Offerings"),
     );
   }
 }
