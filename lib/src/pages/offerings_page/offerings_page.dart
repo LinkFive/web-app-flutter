@@ -5,6 +5,7 @@ import 'package:linkfive_flutter_web/src/provider/path_parameter_provider.dart';
 import 'package:linkfive_flutter_web/src/provider/token_provider.dart';
 import 'package:linkfive_flutter_web/src/repository/repository_provider.dart';
 
+/// e.g. /#/a/052f8174-2be2-4d42-9326-ce75569b346f/offerings
 class OfferingsPage extends ConsumerWidget {
   final String appId;
 

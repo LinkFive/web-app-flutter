@@ -12,7 +12,7 @@ class OfferingsApiRepository {
 
   FutureOr<OfferingsModel> getOfferings(String appId) async {
     try {
-      final response = await dio.get("/v1/app/$appId/delivery-package");
+      final response = await dio.get("/v1/app/$appId/delivery-package", );
 
       return offeringsModelFromJson(response.data.toString());
     } catch (e, s) {

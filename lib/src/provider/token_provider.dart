@@ -18,5 +18,5 @@ final tokenProvider = Provider<String>((ref) {
     throw Exception("No Auth Token");
   }
   print(flutterToken);
-  return flutterToken.value;
+  return flutterToken.value.replaceAll('"', '');
 });

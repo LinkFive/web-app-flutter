@@ -3,7 +3,7 @@ import 'package:linkfive_flutter_web/src/provider/path_parameter_provider.dart';
 import 'package:linkfive_flutter_web/src/repository/api/offerings_model.dart';
 import 'package:linkfive_flutter_web/src/repository/repository_provider.dart';
 
-final offeringsNotifier = AsyncNotifierProvider<OfferingsNotifier, OfferingsModel?>(() => OfferingsNotifier());
+final offeringsNotifier = AsyncNotifierProvider<OfferingsNotifier, OfferingsModel?>(() => OfferingsNotifier(), dependencies: [currentAppIdProvider]);
 
 class OfferingsNotifier extends AsyncNotifier<OfferingsModel?> {
   @override
