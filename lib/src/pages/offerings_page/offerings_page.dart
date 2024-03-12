@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linkfive_flutter_web/src/components/width_limit_component.dart';
+import 'package:linkfive_flutter_web/src/pages/offerings_page/components/info_offering_component.dart';
+import 'package:linkfive_flutter_web/src/pages/offerings_page/components/offering_component.dart';
 import 'package:linkfive_flutter_web/src/pages/offerings_page/offerings_notifier.dart';
 import 'package:linkfive_flutter_web/src/utils/mrs_log.dart';
 
@@ -17,10 +20,14 @@ class OfferingsPage extends ConsumerWidget {
     final offerings = ref.watch(offeringsNotifier);
     return Scaffold(
         body: offerings.when(
-      data: (data) {
-        MrsLog.d(data.toJson());
-        return Text("asd");
-      },
+      data: (data) => WidthLimitComponent(
+          child: ListView(
+        children: [
+          const InfoOfferingComponent(),
+          for(final offering in data.deliveryPackageList)
+            OfferingComponent(offering),
+        ],
+      )),
       loading: () => const Center(
         child: Column(
           children: [CircularProgressIndicator()],

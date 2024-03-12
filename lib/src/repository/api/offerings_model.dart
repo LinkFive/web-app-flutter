@@ -29,6 +29,7 @@ class DeliveryPackageList {
   final String uuid;
   final bool isDefault;
   final bool isActive;
+  final String? name;
   final List<PlatformGroupList> platformGroupList;
   final List<OneTimePurchaseList> oneTimePurchaseList;
   final Filters filters;
@@ -37,6 +38,7 @@ class DeliveryPackageList {
     required this.uuid,
     required this.isDefault,
     required this.isActive,
+    required this.name,
     required this.platformGroupList,
     required this.oneTimePurchaseList,
     required this.filters,
@@ -46,6 +48,7 @@ class DeliveryPackageList {
     uuid: json["uuid"],
     isDefault: json["isDefault"],
     isActive: json["isActive"],
+    name: json["name"],
     platformGroupList: List<PlatformGroupList>.from(json["platformGroupList"].map((x) => PlatformGroupList.fromJson(x))),
     oneTimePurchaseList: List<OneTimePurchaseList>.from(json["oneTimePurchaseList"].map((x) => OneTimePurchaseList.fromJson(x))),
     filters: Filters.fromJson(json["filters"]),
@@ -55,6 +58,7 @@ class DeliveryPackageList {
     "uuid": uuid,
     "isDefault": isDefault,
     "isActive": isActive,
+    "name": name,
     "platformGroupList": List<dynamic>.from(platformGroupList.map((x) => x.toJson())),
     "oneTimePurchaseList": List<dynamic>.from(oneTimePurchaseList.map((x) => x.toJson())),
     "filters": filters.toJson(),
